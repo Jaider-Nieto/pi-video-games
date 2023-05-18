@@ -1,7 +1,8 @@
 const { Router } = require('express');
 // Importar todos los routers;
-const getVideoGames = require('./videoGames/getsVideoGame')
-const postVideoGames = require('../routes/videoGames/postVideoGames')
+const getVideoGames = require('./videoGames/getsVideoGame');
+const postVideoGames = require('../routes/videoGames/postVideoGames');
+const getGenresRouter = require('../routes/Genres/getGenres')
 
 
 const genres = require('../routes/genres')
@@ -20,7 +21,10 @@ router.use('/videoGames', getVideoGames);
 router.use('/videoGames', postVideoGames);
 
 
-// router.use('/genres', genres);
+// o----------o-----------o----------o-----------o-----------o // 
+
+//GET GENRES
+router.use('/genres', getGenresRouter);
 
 
 module.exports = router;
