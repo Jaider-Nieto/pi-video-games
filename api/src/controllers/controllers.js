@@ -48,8 +48,6 @@ const getByName = async (name) => {
     if(!data) throw Error('The game was not found');
 
     return data
-
-
 }
 
 const getById = async (id, source) => {
@@ -73,6 +71,9 @@ const getById = async (id, source) => {
                 }
             }
         })
+
+        if(!dataDB) throw Error('Id searched was not found')
+
         return dataDB
     }
 
@@ -99,22 +100,37 @@ const postVG = async (name, description, platform, image, date, rating, genre) =
     })
 
     await newVideoGame.addGenre(genreFind)
-
-    const result = await Videogames.findOne({
-        where: { name },
-        include: {
-            model: Genre,
-            attributes: ['name'],
-            through: {
-                attributes: []
-            }
-        }
-    })
     
-    return result
+    return
     } catch (error) {
         console.log(error)
     }    
+}
+
+//PUT 
+
+const putVG = async (id, name, description, platform, image, date, rating, gerne ) => {
+    const videoGameId = await getById(id)
+
+    videoGameId.name = name || videoGameId.name,
+    videoGameId.description = description || videoGameId.description, 
+    videoGameId.platform = platform || videoGameId.platform, 
+    videoGameId.image = image || videoGameId.image, 
+    videoGameId.date = date || videoGameId.date, 
+    videoGameId.rating = rating || videoGameId.rating, 
+    videoGameId.gerne = gerne || videoGameId.gerne
+
+    return
+}
+
+//DELETE 
+ 
+const deleteVG = async ( id ) => {
+    await Videogames.destroy({
+        where: { id }
+      });
+
+    return
 }
 
 //GET GENRES
@@ -137,4 +153,6 @@ module.exports = {
     getById,
     postVG,
     getGenres,
+    putVG,
+    deleteVG,
 };
